@@ -22,6 +22,12 @@ This board can be flashed using DFU. To put the board in DFU mode, disconnect
 USB, connect `A9` to `A10` and reconnect USB. Press and hold `BOOT0`. Press
 and release `RESET`. Wait 0.5 seconds. Release `BOOT0`.
 
+List attached DFU capable devices to check you are in DFU mode.
+
+```bash
+dfu-util -l
+```
+
 Now you can flash the board using USB with the command:
 
 ```bash

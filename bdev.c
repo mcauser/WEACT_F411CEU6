@@ -1,5 +1,7 @@
 #include "storage.h"
 
+#if !MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE
+
 // External SPI flash uses standard SPI interface
 
 STATIC const mp_soft_spi_obj_t soft_spi_bus = {
@@ -22,3 +24,5 @@ const mp_spiflash_config_t spiflash_config = {
 };
 
 spi_bdev_t spi_bdev;
+
+#endif
