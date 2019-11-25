@@ -26,6 +26,11 @@ List attached DFU capable devices to check you are in DFU mode.
 
 ```bash
 dfu-util -l
+
+Found DFU: [0483:df11] ver=2200, devnum=12, cfg=1, intf=0, path="20-2", alt=3, name="@Device Feature/0xFFFF0000/01*004 e", serial="328A37623437"
+Found DFU: [0483:df11] ver=2200, devnum=12, cfg=1, intf=0, path="20-2", alt=2, name="@OTP Memory /0x1FFF7800/01*512 e,01*016 e", serial="328A37623437"
+Found DFU: [0483:df11] ver=2200, devnum=12, cfg=1, intf=0, path="20-2", alt=1, name="@Option Bytes  /0x1FFFC000/01*016 e", serial="328A37623437"
+Found DFU: [0483:df11] ver=2200, devnum=12, cfg=1, intf=0, path="20-2", alt=0, name="@Internal Flash  /0x08000000/04*016Kg,01*064Kg,03*128Kg", serial="328A37623437"
 ```
 
 Now you can flash the board using USB with the command:
@@ -52,6 +57,51 @@ screen /dev/tty.usbmodem1422 115200
 # or
 screen /dev/ttyACM0 115200
 ```
+
+### Flash
+
+In `mpconfigboard.h` you can configure the board to use F411CE internal flash or
+if you add a SPI flash chip to the bottom of the board you can use it instead.
+
+If you use internal, there's only around 45kb free. With external you can have
+4-16 MB.
+
+```
+// Use internal flash (512 KByte):
+#define MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE (1)
+
+// Or use external SPI flash:
+#define MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE (0)
+```
+
+Tested with:
+
+* Winbond W25Q32 (4 MByte)
+* Winbond W25Q64 (8 MByte)
+* Winbond W25Q128 (16 MByte)
+
+Define the size that matches your flash chip.
+
+```
+// Winbond W25Q32 (4 MByte)
+#define MICROPY_HW_SPIFLASH_SIZE_BITS (32 * 1024 * 1024)
+
+// Or Winbond W25Q64 (8 MByte)
+#define MICROPY_HW_SPIFLASH_SIZE_BITS (64 * 1024 * 1024)
+
+// Or Winbond W25Q128 (16 MByte)
+#define MICROPY_HW_SPIFLASH_SIZE_BITS (128 * 1024 * 1024)
+```
+
+If you use the wrong one, say 8 MB but you only have a 4 MB chip, it will
+appear as an 8 MB volume and let you write more than 4 MB, but you absolutely
+will get data corruption.
+
+You can also use external SPI flash modules.
+Most modules have WP/IO2 and HOLD/RESET/IO3 pulled high, so you can't use
+Quad SPI mode, only SPI.
+
+![spi flash](docs/spi-flash.jpg)
 
 ### Specifications
 
