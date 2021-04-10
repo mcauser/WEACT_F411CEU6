@@ -1,5 +1,5 @@
 #include "storage.h"
-
+#include "../../drivers/memory/spiflash.h"
 #if !MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE
 
 // External SPI flash uses standard SPI interface
