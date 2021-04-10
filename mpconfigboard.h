@@ -101,7 +101,7 @@
 #define MICROPY_HW_SPIFLASH_SCK     (pin_A5)
 #define MICROPY_HW_SPIFLASH_MISO    (pin_A6)
 #define MICROPY_HW_SPIFLASH_MOSI    (pin_A7)
-
+#define MICROPY_HW_SPIFLASH_ENABLE_CACHE (1)
 #define MICROPY_BOARD_EARLY_INIT    WeAct_F411CE_board_early_init
 void WeAct_F411CE_board_early_init(void);
 
